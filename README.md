@@ -4,10 +4,12 @@ This is a project for Udacity's React Fundamentals course. The project provides 
 
 I started the project with the starter code that can be found in the [starter repository](https://github.com/udacity/reactnd-project-myreads-starter).
 
-## To Run the Project
+## To Install and Launch Project
 
+* download the project from [github repository](https://github.com/sukpia/reactnd-project-myreads-starter)
+* change directory to the downloaded folder
 * install all project dependencies with `npm install`
-* start the development server with `npm start`
+* launch the project with `npm start`
 
 ## Required App Functionality
 
