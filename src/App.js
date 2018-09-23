@@ -6,7 +6,6 @@ import ListCurrentlyReading from './ListCurrentlyReading'
 import ListWantToRead from './ListWantToRead'
 import ListRead from './ListRead'
 import SearchPage from './SearchPage'
-import ListBooks from './ListBooks'
 
 class BooksApp extends React.Component {
   state = {
@@ -36,9 +35,15 @@ class BooksApp extends React.Component {
             <PageTitle />
             <div className="list-books-content">
               <div>
-                <ListBooks books={this.state.books}/>
-                <ListWantToRead />
-                <ListRead />
+                <ListCurrentlyReading
+                  books={this.state.books}
+                />
+                <ListWantToRead
+                  books={this.state.books}
+                />
+                <ListRead
+                  books={this.state.books}
+                />
               </div>
             </div>
             <div className="open-search">
