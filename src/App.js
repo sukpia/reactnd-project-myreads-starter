@@ -54,6 +54,7 @@ class BooksApp extends React.Component {
                 />
                 <ListWantToRead
                   books={this.state.books}
+                  onChangeShelf={this.changeShelf}
                 />
                 <ListRead
                   books={this.state.books}
