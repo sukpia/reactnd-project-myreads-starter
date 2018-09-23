@@ -21,8 +21,21 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({books})
+      this.setState({books});
     })
+  }
+
+  changeShelf = (event, book) => {
+    // create a copy of the existing books array
+    let newBooks = [...this.state.books];
+    // find the index where the book title is the same as the selected book
+    let index = newBooks.findIndex(el => el.title === book.title);
+    // set the new shelf for the selected book
+    newBooks[index].shelf = event.target.value;
+    // change the state for the books
+    this.setState({ newBooks });
+    // update the external data in backend server
+    // BooksAPI.update(book, event.target.shelf);
   }
 
   render() {
@@ -37,6 +50,7 @@ class BooksApp extends React.Component {
               <div>
                 <ListCurrentlyReading
                   books={this.state.books}
+                  onChangeShelf={this.changeShelf}
                 />
                 <ListWantToRead
                   books={this.state.books}

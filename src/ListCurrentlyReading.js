@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 class ListCurrentlyReading extends Component {
 	render() {
     console.log(this.props)
-    const { books } = this.props
-    
+    const { books, onChangeShelf } = this.props
+
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">Currently Reading</h2>
@@ -16,7 +16,7 @@ class ListCurrentlyReading extends Component {
                   <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
                     <div className="book-shelf-changer">
-                          <select>
+                          <select value={book.shelf} onChange={(event) => onChangeShelf(event, book)}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
