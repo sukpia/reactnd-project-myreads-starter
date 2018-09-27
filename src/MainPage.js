@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
+import { Link } from 'react-router-dom'
 
 class MainPage extends Component {
 	changeShelf = (event, book) => {
@@ -62,7 +63,7 @@ class MainPage extends Component {
 					        </div>
 				      	</div>
 				      	<div className="open-search">
-			              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+				      	  <Link to="/search">Add a Book</Link>
 			            </div>
 	            	</div>
 	            </div>
