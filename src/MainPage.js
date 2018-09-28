@@ -1,24 +1,14 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 
 class MainPage extends Component {
-	changeShelf = (event, book) => {
-		// create a copy of the existing books array
-	    let newBooks = [...this.props.books];
-	    // find the index where the book title is the same as the selected book
-	    let index = newBooks.findIndex(el => el.title === book.title);
-	    // set the new shelf for the selected book
-	    newBooks[index].shelf = event.target.value;
-	    // change the state for the books
-	    this.setState({ newBooks });
-	    // update the external data in backend server
-	    BooksAPI.update(book, event.target.value);
-	}
 
 	render() {
-		const { books } = this.props
+		const { books, onChangeShelf } = this.props
+		// console.log(books);
+
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
@@ -32,7 +22,7 @@ class MainPage extends Component {
 					          <ol className="books-grid">
 					            {books.filter(book => book.shelf === "currentlyReading").map((book) => (
 					              <li key={book.id}>
-					                <Book book={book} onChangeShelf={this.changeShelf}/>
+					                <Book book={book} onChangeShelf={onChangeShelf} displayShelf = "currentlyReading"/>
 					              </li>
 					            ))}
 					          </ol>
@@ -44,7 +34,7 @@ class MainPage extends Component {
 					          <ol className="books-grid">
 					            {books.filter(book => book.shelf === "wantToRead").map((book) => (
 					              <li key={book.id}>
-					                <Book book={book} onChangeShelf={this.changeShelf}/>
+					                <Book book={book} onChangeShelf={onChangeShelf} displayShelf="wantToRead"/>
 					              </li>
 					            ))}
 					          </ol>
@@ -56,7 +46,7 @@ class MainPage extends Component {
 					          <ol className="books-grid">
 					            {books.filter(book => book.shelf === "read").map((book) => (
 					              <li key={book.id}>
-					                <Book book={book} onChangeShelf={this.changeShelf}/>
+					                <Book book={book} onChangeShelf={onChangeShelf} displayShelf="read"/>
 					              </li>
 					            ))}
 					          </ol>

@@ -1,3 +1,8 @@
+/*
+ * Got a lot of help from Maeva youtube video:
+ * https://www.youtube.com/watch?v=i6L2jLHV9j8&feature=youtu.be
+*/
+
 import React from 'react'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
@@ -7,13 +12,6 @@ import SearchPage from './SearchPage'
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
     books: []
   }
 
@@ -23,16 +21,41 @@ class BooksApp extends React.Component {
     })
   }
 
+  changeShelf = (book, shelf) => {
+    // update the external data in backend server
+    BooksAPI.update(book, shelf);
+
+    // create a copy of the Main Page books array
+    let tmpBooks = [...this.state.books];
+    // find the index where the book title is the same as the selected book
+    let index = tmpBooks.findIndex(el => el.id === book.id);
+
+    // if change shelf from main page
+    if (index >= 0) {
+      // set the new shelf for the selected book
+      tmpBooks[index].shelf = shelf;
+      // change the state for the Main Page books
+      this.setState({ tmpBooks });
+    } else { // else if change shelf from search page
+      BooksAPI.getAll().then((books) => {
+        this.setState({books});
+      })
+    }
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
             <MainPage 
-              books={this.state.books} 
+              books={this.state.books}
+              onChangeShelf={this.changeShelf}
             />
         )}/>
         <Route path="/search" render={({ history }) => (
-          <SearchPage
+          <SearchPage 
+          books={this.state.books}
+          onChangeShelf={this.changeShelf}
           />
         )}/>
       </div>

@@ -1,7 +1,4 @@
-/*
- * Got help from Maeva youtube video:
- * https://www.youtube.com/watch?v=i6L2jLHV9j8&feature=youtu.be
-*/
+
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
@@ -13,6 +10,7 @@ class SearchPage extends Component {
 		searchedBooks: []
 	}
 
+
 	updateQuery = (query) => {
 		this.setState({ query: query })
 		this.updateSearchedBooks(query);
@@ -22,20 +20,22 @@ class SearchPage extends Component {
 		if (query) {
 			BooksAPI.search(query).then((searchedBooks) => {
 				if (searchedBooks.error) {
+					// if there is search error, set searchedBooks to empty array to prevent rendering error
 					this.setState({ searchedBooks: []})
 				} else {
-					this.setState({ searchedBooks: searchedBooks })
+					this.setState({ searchedBooks })
 				}
 			})
 		} else {
 			this.setState({ searchedBooks: [] });
 		}
-		
 	}
 
 	render() {
 		const { query, searchedBooks } = this.state
-		// console.log(searchedBooks);
+		const { books, onChangeShelf } = this.props
+		
+		// console.log(this.state.searchedBooks)
 
 		return (
 			<div className="search-books">
@@ -54,17 +54,26 @@ class SearchPage extends Component {
 	                	type="text" 
 	                	placeholder="Search by title or author"
 	                	value = {query}
-	                	onChange={(event) => this.updateQuery(event.target.value)}/>
+	                	onChange={(event) => this.updateQuery(event.target.value) }/>
 
 	              </div>
 	            </div>
 	            <div className="search-books-results">
 	              <ol className="books-grid">
-	              	{searchedBooks.map((searchedBook) => (
-	              		<li key={searchedBook.id}>
-	              			<Book book={searchedBook} />
-	              		</li>
-	              	))}
+	              	{
+	              		searchedBooks.map((searchedBook) => {
+	              			let shelf = "none";
+	              			// need to set a dynamic shelf so the current shelf status is displayed on Search Page
+	              			books.map((book) => (
+	              				book.id === searchedBook.id ? shelf = book.shelf : ''
+	              			))
+		              		return (
+		              			<li key={searchedBook.id}>
+		              				<Book book={searchedBook} onChangeShelf={onChangeShelf} displayShelf={shelf}/>
+		              			</li>
+		              		)
+	              		})
+	              	}
 	              </ol>
 	            </div>
           	</div>
